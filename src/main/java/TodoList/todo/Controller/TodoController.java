@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @RequestMapping("/todo")
 @Controller
 @RequiredArgsConstructor
@@ -70,6 +73,7 @@ public class TodoController {
             List<Todo> searchTodo = this.todoService.findBySubject(query);
             model.addAttribute("list", searchTodo);
         }
+
         return "todo_list";
     }
 

@@ -5,8 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -31,7 +33,11 @@ public class TodoService {
         this.todoRepository.save(todo);
     }
     public List<Todo> findAll(){
-        return this.todoRepository.findAll();
+        List<Todo> todoList=this.todoRepository.findAll();
+        todoList=todoList.stream().
+                sorted(Comparator.comparing(Todo::getDeadLine))
+                .collect(Collectors.toList());
+        return todoList;
     }
 
     public void delete(Todo todo){

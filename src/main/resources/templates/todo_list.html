@@ -16,7 +16,7 @@
                 </form>
             </div>
         </nav>
-        <div>
+        <div class="wrap">
         <table class="table">
             <thead class="table-primary">
             <tr>
@@ -30,21 +30,24 @@
                 <td th:text="${item.subject}"></td>
                 <td th:text="${#temporals.format(item.createTime,'yyyy-MM-dd HH:mm')}">
                 </td>
-                <td th:text="${#temporals.format(item.deadLine,'yyyy-MM-dd HH:mm')}">
+                <td th:text="${#temporals.format(item.deadLine,'yyyy-MM-dd HH:mm')} "
+                    th:style="${item.deadLine.isBefore(#temporals.createNow().plusDays(1))} ? 'background-color:rgb(255, 200, 200)' : ''"
+                >
                 </td>
                 <td style="display: flex">
+                    <form style="margin-right: 3%" th:action="@{|/todo/modify/${item.id}|}" method="get">
+                        <input type="submit" value="수정">
+                    </form>
                     <form th:action="@{|/todo/delete/${item.id}|}" method="post">
                         <input type="submit" value="삭제">
                     </form>
-                    <form th:action="@{|/todo/modify/${item.id}|}" method="get">
-                        <input type="submit" value="수정">
-                    </form>
+
                 </td>
             </tr>
         </table>
         </div>
         <form th:action="@{/todo/create}" method="get" >
-            <button type="submit" class="btn btn-primary">새 할일 등록하기</button>
+            <button type="submit" class="btn btn-primary">등록하기</button>
         </form>
     </div>
 </body>

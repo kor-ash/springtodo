@@ -11,11 +11,11 @@
         <label for="subject">제목</label>
             <input type="text" style="width: 30%;margin-right: 3%" id="subject" name="subject">
         <label for="deadLine">마감일</label>
-        <input type="date" style="width: 30%" id="deadLine" name="deadLine">
+        <input type="date" style="width: 30%" id="deadLine" th:attr="min=${#dates.format(#dates.createNow(),'yyyy-MM-dd')}" name="deadLine">
     </div>
-    <div class="row mb-3">
-        <label for="content" class="col-sm-2 col-form-label">내용</label>
-            <textarea name="content" cols="50" rows="10" id="content" class="form-control"></textarea>
+    <div class="input-group">
+        <span class="input-group-text">내용</span>
+        <textarea name="content" id="content" style="width:150px;"></textarea>
     </div>
     <button type="submit" class="btn-primary"> 등록하기 </button>
 </form>
