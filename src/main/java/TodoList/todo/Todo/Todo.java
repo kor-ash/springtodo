@@ -14,5 +14,8 @@ public class Todo {
     private Long id;
     @Column(columnDefinition = "TEXT")
     String content;
-    LocalDateTime createTime;
+    @Column(columnDefinition = "TEXT")
+    String subject;
+    LocalDateTime createTime; //시작일
+    LocalDateTime deadLine; //마감일
 }

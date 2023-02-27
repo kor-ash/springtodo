@@ -22,10 +22,12 @@ public class TodoService {
     public List<Todo> getList(){
             return this.todoRepository.findAll();
     }
-    public void create(String content){
+    public void create(String subject,String content,LocalDateTime deadLine){
         Todo todo=new Todo();
+        todo.setSubject(subject);
         todo.setContent(content);
         todo.setCreateTime(LocalDateTime.now());
+        todo.setDeadLine(deadLine);
         this.todoRepository.save(todo);
     }
     public List<Todo> findAll(){
@@ -35,8 +37,13 @@ public class TodoService {
     public void delete(Todo todo){
         this.todoRepository.delete(todo);
     }
-    public void modify(Todo todo,String content){
+    public void modify(Todo todo,String subject,String content){
         todo.setContent(content);
+        todo.setSubject(subject);
         this.todoRepository.save(todo);
+    }
+    public List<Todo> findBySubject(String subject)
+    {
+        return this.todoRepository.findAllBySubject(subject);
     }
 }
