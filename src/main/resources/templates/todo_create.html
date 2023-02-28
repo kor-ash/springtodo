@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/test.css}">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{/todo/create}" method="post">
-    <div style="display:flex">
-        <label for="subject">제목</label>
-            <input type="text" style="width: 30%;margin-right: 3%" id="subject" name="subject">
-        <label for="deadLine">마감일</label>
-        <input type="date" style="width: 30%" id="deadLine" th:attr="min=${#dates.format(#dates.createNow(),'yyyy-MM-dd')}" name="deadLine">
+<div class="wrap">
+    <div class="plate">
+        <h3> 등록하기 </h3>
+        <form th:action="@{/todo/create}" method="post">
+            <div class="todo_subject">
+                <label for="subject">제목</label>
+                <input type="text" style="width: 30%;margin-right: 3%" id="subject" name="subject">
+                <label for="deadLine">마감일</label>
+                <input type="date" style="width: 30%" id="deadLine"
+                       th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
+                       th:attr="min=${#dates.format(#dates.createNow(),'yyyy-MM-dd')}" name="deadLine">
+            </div>
+            <div class="todo_content">
+                <span>내용</span>
+                <textarea name="content" id="content"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary"> 등록하기</button>
+        </form>
     </div>
-    <div class="input-group">
-        <span class="input-group-text">내용</span>
-        <textarea name="content" id="content" style="width:150px;"></textarea>
-    </div>
-    <button type="submit" class="btn-primary"> 등록하기 </button>
-</form>
+</div>
+
 </body>
 </html>

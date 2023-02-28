@@ -40,7 +40,7 @@ public class TodoController {
     @GetMapping("/list")
     public String todoList(Model model)
     {
-        List<Todo> todoList=todoService.findAll();
+        List<Todo> todoList=todoService.getList(Boolean.FALSE);
         model.addAttribute("list",todoList);
         return "todo_list";
     }
@@ -67,7 +67,7 @@ public class TodoController {
     {
         if(query.equals(""))
         {
-            model.addAttribute("list",this.todoService.findAll());
+            model.addAttribute("list",this.todoService.getList(Boolean.TRUE));
         }
         else {
             List<Todo> searchTodo = this.todoService.findBySubject(query);
@@ -76,5 +76,42 @@ public class TodoController {
 
         return "todo_list";
     }
-
+    @GetMapping("/detail/{id}")
+    public String todoDetail(Model model,@PathVariable("id") Long id)
+    {
+        Todo todo=this.todoService.getTodo(id);
+        model.addAttribute("todo",todo);
+        return "todo_detail";
+    }
+    @GetMapping("/isDone")
+    public String todoComplete(Model model)
+    {
+        List<Todo> list = this.todoService.getList(Boolean.TRUE);
+        model.addAttribute("list",list);
+        return "redirect:/todo/complete";
+    }
+    @PostMapping("/complete/{id}")
+    public String todoComplete(Model model,@PathVariable("id") Long id)
+    {
+        Todo todo = this.todoService.getTodo(id);
+        todo.setIsDone(Boolean.TRUE);
+        this.todoService.save(todo);
+        return "redirect:/todo/complete";
+    }
+    @GetMapping("/complete")
+    public String getCompleteTodoList(Model model) {
+        List<Todo> list = this.todoService.getList(Boolean.TRUE);
+        model.addAttribute("list", list);
+        return "todo_complete";
+    }
+    @PostMapping("/incomplete/{id}")
+    public String todoInComplete(Model model,@PathVariable("id") Long id)
+    {
+        Todo todo = this.todoService.getTodo(id);
+        todo.setIsDone(Boolean.FALSE);
+        this.todoService.save(todo);
+        List<Todo> list = this.todoService.getList(Boolean.TRUE);
+        model.addAttribute("list", list);
+        return "redirect:/todo/list";
+    }
 }

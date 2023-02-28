@@ -21,8 +21,14 @@ public class TodoService {
         else
             throw new DataNotFoundException("Item Not found");
     }
-    public List<Todo> getList(){
-            return this.todoRepository.findAll();
+    public List<Todo> getList(Boolean isComplete){
+        List<Todo> all = this.todoRepository.findAll();
+        if (isComplete == null) {
+            return all;
+        }
+        return all.stream().filter(obj->obj.getIsDone().equals(isComplete))
+                .collect(Collectors.toList());
+
     }
     public void create(String subject,String content,LocalDateTime deadLine){
         Todo todo=new Todo();
@@ -30,6 +36,7 @@ public class TodoService {
         todo.setContent(content);
         todo.setCreateTime(LocalDateTime.now());
         todo.setDeadLine(deadLine);
+        todo.setIsDone(Boolean.FALSE);
         this.todoRepository.save(todo);
     }
     public List<Todo> findAll(){
@@ -51,5 +58,9 @@ public class TodoService {
     public List<Todo> findBySubject(String subject)
     {
         return this.todoRepository.findAllBySubject(subject);
+    }
+    public void save(Todo todo)
+    {
+        this.todoRepository.save(todo);
     }
 }

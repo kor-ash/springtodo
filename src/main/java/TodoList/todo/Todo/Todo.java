@@ -18,4 +18,5 @@ public class Todo {
     String subject;
     LocalDateTime createTime; //시작일
     LocalDateTime deadLine; //마감일
+    Boolean isDone; //완료 됐는지
 }

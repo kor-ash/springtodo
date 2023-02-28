@@ -6,9 +6,10 @@
     <title>Title</title>
 </head>
 <body>
-<nav class="navbar bg-body-tertiary " data-bs-theme="dark">
+<nav class="navbar bg-body-tertiary justify-content-lg-start" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Home</a>
+        <a class="navbar-brand px-0 me-3" th:href="@{/todo/isDone}">해결 완료</a>
         <form class="d-flex" role="search" th:action="@{/todo/search/{query}(query=${query})}" method="get">
             <input id=query name=query class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>

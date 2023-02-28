@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav class="navbar bg-body-tertiary " data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Home</a>
+        <form class="d-flex" role="search" th:action="@{/todo/search/{query}(query=${query})}" method="get">
+            <input id=query name=query class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+<div class="card" style="width: 40%; margin:30%;margin-top:15%;height: 40%">
+    <div class="card-body">
+        <h5 th:text="|제목:${todo.subject}|"></h5>
+        <h6 class="card-subtitle mb-2 text-muted"
+            th:text="|마감시간:${#temporals.format(todo.deadLine,'yyyy-MM-dd HH:mm')}|"></h6>
+        <p class="card-text" th:text="|할일:${todo.content}|"></p>
+        <div style="display: flex">
+            <form th:action="@{/todo/modify/{id}(id=${todo.id})}" method="get" style="margin-right: 3%">
+                <button type="submit" class="btn btn-primary">수정</button>
+            </form>
+            <form th:action="@{/todo/delete/{id}(id=${todo.id})}" method="post">
+                <button type="submit" class="btn btn-primary">삭제</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

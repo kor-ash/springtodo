@@ -7,19 +7,24 @@
 </head>
 <body>
     <div class="container my-3">
-        <nav class="navbar bg-body-tertiary " data-bs-theme="dark">
+        <nav class="navbar bg-body-tertiary justify-content-lg-start" data-bs-theme="dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">Home</a>
+                <a class="navbar-brand" th:href="@{/}"
+                   th:style="${#httpServletRequest.requestURI == '/todo/list' } ? 'color:blue' : ''"
+                >Home</a>
+                <a class="navbar-brand px-0 me-3 "
+                   th:style="${#httpServletRequest.requestURI == '/todo/complete' } ? 'color:blue' : ''"
+                   th:href="@{/todo/isDone}">해결 완료</a>
                 <form class="d-flex" role="search" th:action="@{/todo/search/{query}(query=${query})}" method="get">
                     <input id=query name=query class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>
         </nav>
-        <div class="wrap">
+        <div>
         <table class="table">
             <thead class="table-primary">
-            <tr>
+            <tr style="text-align: center">
                 <th> 제목 </th>
                 <th> 시작 날짜 </th>
                 <th> 마감 날짜</th>
@@ -27,21 +32,27 @@
             </tr>
             </thead>
             <tr th:each="item : ${list}">
-                <td th:text="${item.subject}"></td>
+                <td>
+                    <a th:href="@{/todo/detail/{id}(id=${item.id})}" th:text="${item.subject}"></a>
+                </td>
                 <td th:text="${#temporals.format(item.createTime,'yyyy-MM-dd HH:mm')}">
                 </td>
                 <td th:text="${#temporals.format(item.deadLine,'yyyy-MM-dd HH:mm')} "
                     th:style="${item.deadLine.isBefore(#temporals.createNow().plusDays(1))} ? 'background-color:rgb(255, 200, 200)' : ''"
                 >
                 </td>
-                <td style="display: flex">
-                    <form style="margin-right: 3%" th:action="@{|/todo/modify/${item.id}|}" method="get">
+                <td style="display: flex;justify-content: center">
+                    <form th:action="@{|/todo/modify/${item.id}|}" method="get">
                         <input type="submit" value="수정">
                     </form>
-                    <form th:action="@{|/todo/delete/${item.id}|}" method="post">
+                    <form style="margin-right: 3%;margin-left:3%" th:action="@{|/todo/delete/${item.id}|}" method="post"
+                          onsubmit="return confirm('Are you sure you want to delete this item?')">
                         <input type="submit" value="삭제">
                     </form>
-
+                    <form th:action="@{|/todo/complete/${item.id}|}" method="post"
+                          onsubmit="return confirm('Are you sure you want to complete this item?')">
+                        <input type="submit" value="완료">
+                    </form>
                 </td>
             </tr>
         </table>
@@ -52,3 +63,9 @@
     </div>
 </body>
 </html>
+
+<style>
+    td{
+        text-align: center;
+    }
+</style>
